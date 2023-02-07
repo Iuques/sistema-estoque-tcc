@@ -1,0 +1,22 @@
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+#title {
+    text-align: center;
+}
+#title img{
+    width: 900px;
+}
+
+#navbar img {
+    width: 50px;
+}
+
+#displayDepartamentForm {
+    display: none;
+}
+
+#product-image img {
+    width: 75px;
+}
