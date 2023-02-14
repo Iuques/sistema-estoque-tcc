@@ -9,6 +9,8 @@
         <!-- Fontes do google -->
         <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+        <!-- Ícones do Boxicons -->
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <!-- CSS do Bootstrap -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
         <!-- JS do Bootstrap -->
@@ -20,76 +22,167 @@
 
     </head>
     <body>
-        <header>
-            <nav class="navbar navbar-expand-lg bg-body-secondary">
-                <div class="container-fluid" id="navbar">
-                    <a class="navbar-brand" href="/">
-                        <img src="{{ URL::asset("img/logo-emstock.png") }}" alt="Logo EMStock">
-                    </a>
-                    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="/">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/users">Usuários</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/clients">Clientes</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/products">Produtos</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/sales">Vendas</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/users/profile/{{Auth::id()}}">Perfil</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="btn btn-danger" href="/dashboard/logout">Logout</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </header>
-        <div id="products-navbar">
-            <nav class="navbar navbar-expand-lg bg-body-secondary">
-                <div class="container-fluid" id="navbar">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="/products">Produtos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/products/departaments">Departamentos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/products/suppliers">Fornecedores</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-        <div class="container-fluid">
-            <div class="row">
-                @if ($errors->all())
-                    @foreach ($errors->all() as $error)
-                        <div class="alert alert-danger" role="alert">
-                            {{$error}}
-                        </div>
-                    @endforeach
-                @endif
-                @if (session('msg'))
-                    <div class="alert alert-success" role="alert">
-                        {{session('msg')}}
-                    </div>
-                @endif
+        <div class="sidebar close">
+            <div class="logo-details">
+                <img src="{{ URL::asset("img/logo-emstock.png") }}" alt="Logo EMStock">
+                <span class="logo_name">Navegação</span>
             </div>
-            @yield('content')
+            <ul class="nav-links">
+                <li>
+                    <a href="/">
+                        <i class='bx bx-grid-alt' ></i>
+                        <span class="link_name">Dashboard</span>
+                    </a>
+                    <ul class="sub-menu blank">
+                        <li><a class="link_name" href="/">Dashboard</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="iocn-link">
+                    <a href="/products">
+                        <i class='bx bxs-package'></i>
+                        <span class="link_name">Produtos</span>
+                    </a>
+                    <i class='bx bxs-chevron-down arrow' ></i>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a class="link_name" href="/products">Produtos</a></li>
+                        <li><a href="/products/departaments">Departamentos</a></li>
+                        <li><a href="/products/suppliers">Fornecedores</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/sales">
+                        <i class='bx bx-money-withdraw'></i>
+                        <span class="link_name">Vendas</span>
+                    </a>
+                    <ul class="sub-menu blank">
+                        <li><a class="link_name" href="/sales">Vendas</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/users">
+                        <i class='bx bxs-user-detail' ></i>
+                        <span class="link_name">Usuários</span>
+                    </a>
+                    <ul class="sub-menu blank">
+                        <li><a class="link_name" href="/users">Usuários</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/clients">
+                        <i class='bx bxs-user-badge' ></i>
+                        <span class="link_name">Clientes</span>
+                    </a>
+                    <ul class="sub-menu blank">
+                        <li><a class="link_name" href="/clients">Clientes</a></li>
+                    </ul>
+                </li>
+                <div class="profile-details">
+                    <div class="profile-content">
+                        <a class="nav-link" href="/users/profile/{{Auth::id()}}">
+                            <img src="{{ URL::asset("img/profile.png")}}" alt="profileImg">
+                        </a>
+                    </div>
+                    <div class="name-job">
+                        <div class="profile_name">
+                            <a class="nav-link" href="/users/profile/{{Auth::id()}}">
+                                {{Auth::User()->name}} {{Auth::User()->surname}}
+                            </a>
+                        </div>
+                        <div class="job">
+                            @if (Auth::User()->type == 1)
+                                Admnistrador
+                            @else
+                                Funcionário
+                            @endif
+                        </div>
+                    </div>
+                    <div class="log-out">
+                        <a href="/dashboard/logout">
+                            <i class='bx bx-log-out'></i>
+                        </a>
+                    </div>
+                </div>
+            </ul>
         </div>
-        <footer>
-            <p> IFRN &copy; 2022 </p>
-        </footer>
+        <section class="home-section">
+            <div class="home-content">
+                <div class="col">
+                    <i class='bx bx-menu' ></i>
+                </div>
+                <div class="col-7">
+                    @if ($errors->all())
+                        @foreach ($errors->all() as $error)
+                            <div class="alert alert-danger text-center" role="alert" style="font-size: 20px">
+                                <b>{{$error}}</b>
+                            </div>
+                        @endforeach
+                    @endif
+                    @if (session('msg'))
+                        <div class="alert alert-success text-center" role="alert" style="font-size: 20px">
+                            <b>{{session('msg')}}</b>
+                        </div>
+                     @endif
+                </div>
+                <div class="col-4">
+                    <div id="products-navbar">
+                        <nav class="navbar navbar-expand-lg" style="">
+                            <div class="container-fluid">
+                              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                              </button>
+                              <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                                <form class="d-flex" role="search">
+                                    <input class="form-control me-2" type="search" placeholder="Buscar..." id="search" name="search" aria-label="Search">
+                                  </form>
+                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="/products">
+                                            @if (request()->route()->named('products'))
+                                                <i class='bx bxs-right-arrow'></i>
+                                            @endif Produtos
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/products/departaments">
+                                            @if (request()->route()->named('departaments'))
+                                                <i class='bx bxs-right-arrow'></i>
+                                            @endif Departamentos
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/products/suppliers">
+                                            @if (request()->route()->named('suppliers'))
+                                                <i class='bx bxs-right-arrow'></i>
+                                            @endif Fornecedores
+                                        </a>
+                                    </li>
+                                </ul>
+                              </div>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid mt-3">
+                @yield('content')
+            </div>
+        </section>
+        <script>
+            let arrow = document.querySelectorAll(".arrow");
+            for (var i = 0; i < arrow.length; i++) {
+                arrow[i].addEventListener("click", (e)=>{
+            let arrowParent = e.target.parentElement.parentElement;//selecting main parent of arrow
+            arrowParent.classList.toggle("showMenu");
+                });
+            }
+            let sidebar = document.querySelector(".sidebar");
+            let sidebarBtn = document.querySelector(".bx-menu");
+            console.log(sidebarBtn);
+            sidebarBtn.addEventListener("click", ()=>{
+                sidebar.classList.toggle("close");
+            });
+        </script>
     </body>
 </html>

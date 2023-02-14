@@ -20,78 +20,96 @@
     } 
 @endphp
 
-<div id="search-container" class="col-md-12">
-    <h2>Buscar produto</h2>
-    <form action="/products" method="GET">
-        <input type="text" id="search" name="search" class="form-control" placeholder="Buscar...">
-        <!-- <h2>Filtrar</h2>
-        Por departamentos: <br>
-        @foreach ($departaments as $key => $departament)
-            <input type="checkbox" id="departament-checkbox" name="filterDepartament{{$key}}" value="{{ $departament->id }}">
-            <label for="departament{{$key}}"> {{ $departament->name }} </label><br>
-        @endforeach
-        Por fornecedores: <br>
-        @foreach ($suppliers as $key => $supplier)
-            <input type="checkbox" id="supplier-checkbox" name="filterSupplier{{$key}}" value="{{ $supplier->id }}">
-            <label for="supplier{{$key}}"> {{ $supplier->name }} </label><br>
-        @endforeach -->
-    </form>
+<div class="row mb-3">
+    <div class="col">
+        @if ($search)
+            <h1>Buscando por: {{$search}}</h1>
+        @else
+            <h1>Todos os produtos</h1>
+        @endif
+    </div>
+    <div class="col" style="text-align: right">
+        <a class="btn btn-primary btn-lg" href="/products/create">Cadastrar novo produto</a>
+    </div>
 </div>
 
-<br>
-
-@if ($search)
-    <h1>Buscando por: {{$search}}</h1>
-@else
-    <h1>Todos os produtos</h1>
-@endif
-
-
-@foreach ($products as $product)
-    <p id="product-image">
-        Imagem do produto: 
-        @if ($product->image_id)
-            <img src="../img/products/{{ $imageURL[$product->id]}}" alt="{{ $imageURL[$product->id]}}">
-            
-        @else 
-            <img src="../img/products/produto-sem-imagem.png" alt="Sem Imagem">
-        @endif
-    </p>
-    <p>Nome: {{ $product->name }}</p>
-    <p>Descrição: {{ $product->description }}</p>
-    <p>Departamento: {{ $departamentName[$product->id] }}</p>
-    <p>Fornecedor: {{ $supplierName[$product->id]}}</p>
-    <p>Preço de compra: R${{ $product->buyprice }}</p>
-    <p>Preço de venda: R${{ $product->sellprice }}</p>
-    <p>
-        <div class="input-group text-center mb-3" style="width: 130px">
-            <form action="/products/update/{{$product->id}}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                <label for="quantity">Quantidade em estoque:</label> 
-                <input type="number" name="quantity" class="form-control text-center" value="{{ $product->quantity }}">
-                <input type="submit" class="input-group btn btn-primary" value="Atualizar">
-            </form>
+@foreach ($products as $key => $product)
+    <div class="row" id="product-row">
+        <div class="card sm mx-auto" style="width: 90%;">
+            <div class="row g-0">
+                <div class="col">
+                    @if ($product->image_id)
+                        <img src="../img/products/{{ $imageURL[$product->id]}}" class="img-fluid rounded-start" alt="{{ $imageURL[$product->id]}}">
+                    @else 
+                        <img src="../img/products/produto-sem-imagem.png" class="img-fluid rounded-start" alt="Produto sem imagem">
+                    @endif
+                </div>
+                <div class="col-md-10">
+                    <div class="row" style="height: 100%">
+                        <div class="col-auto d-flex align-items-center text-start">
+                            <b>ID:</b>&nbsp;{{$product->id}}
+                        </div>
+                        <div class="col-4 d-flex align-items-center">
+                            <b>Nome:</b>&nbsp; {{$product->name}}
+                        </div>
+                        <div class="col-6 d-flex align-items-center">
+                            <form action="/products/update/{{$product->id}}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                @method('PUT')
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-auto">
+                                        <label for="inputPassword6" class="col-form-label"><b>Quantidade em estoque:</b></label>
+                                    </div>
+                                    <div class="col-auto">
+                                        <input type="number" name="quantity" class="form-control text-center" value="{{$product->quantity}}" style="width: 60px">
+                                    </div>
+                                    <div class="col-auto">
+                                    <span id="passwordHelpInline" class="form-text">
+                                        <abbr title="Atualizar"><button type="submit" class="btn btn-primary"><i class='bx bx-upload' ></i></button></abbr>
+                                    </span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto d-flex align-items-center" id="row-buttons">
+                    <form action="/products/destroy/{{$product->id}}" method="POST">
+                        <abbr title="Editar"><a href="/products/edit/{{$product->id}}" class="btn btn-info"><i class='bx bxs-edit'></i></a></abbr>
+                        @csrf
+                        @method("DELETE")
+                        <abbr title="Excluir"><button type="submit" class="btn btn-danger"><i class='bx bx-trash' ></i></button></abbr>
+                     </form> 
+                </div>
+                <div class="col-auto d-flex align-items-center text-end" id="collapse-button">
+                    <abbr title="Abrir"><a class="btn" data-bs-toggle="collapse" href="#multiCollapseExample{{$key}}" role="button" aria-expanded="false" aria-controls="multiCollapseExample{{$key}}"><i class='bx bxs-chevrons-down'></i></a></abbr>
+                </div>
+            </div>
         </div>
-    </p>
-    <form action="/products/destroy/{{$product->id}}" method="POST">
-        @csrf
-        @method("DELETE")
-        <input type="submit" class="btn btn-danger" value="excluir">
-    </form>
-    <a href="/products/edit/{{$product->id}}" class="btn btn-info">Editar</a>
-    <hr class="border border-primary border-2 opacity-50">
+    </div>
+    <div class="row" id="product-details">
+        <div class="card sm mx-auto" style="width: 90%; margin-bottom: 25px">
+            <div class="col">
+                <div class="collapse multi-collapse" id="multiCollapseExample{{$key}}">
+                    <div class="card-body">
+                        <p class="card-text">{{$product->description}}</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><b>Departamento:</b> {{ $departamentName[$product->id] }}</li>
+                        <li class="list-group-item"><b>Fornecedor:</b> {{ $supplierName[$product->id] }}</li>
+                        <li class="list-group-item"><b>Preço de compra:</b> R${{ number_format($product->buyprice,2) }}</li>
+                        <li class="list-group-item"><b>Preço de venda:</b> R${{ number_format($product->sellprice,2) }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 @endforeach
+
 @if (count($products) == 0 && $search)
     <p>Não foi possível encontrar nenhum produto com '{{$search}}' <a href="/products">Ver todos os produtos</a> </p> 
 @elseif (count($products) == 0)
     <p>Nenhum produto foi adicionado</p>
 @endif
 
-<a class="btn btn-primary" href="/products/create">Adicionar produto</a>
-
-<script> 
-    
-
-</script>
 @endsection

@@ -4,31 +4,40 @@
 
 
 <div class="col-md-6 offset-md-3" id="client-edit-container">
-    <h1>Editar cliente</h1>
+    <div class="text-center">
+        <h1>Editando cliente: {{$client->name}} {{$client->surname}}</h1>
+    </div>
     <form action="/clients/update/{{$client->id}}" method="POST">
         @csrf
         @method('PUT')
         <div class="form-group">
-            <label for="name">Nome:</label>
+            <label for="name"><b>Nome:</b></label>
             <input type="text" id="name" name="name" class="form-control" value="{{$client->name}}">
         </div>
+        <br>
         <div class="form-group">
-            <label for="surname">Sobrenome:</label>
+            <label for="surname"><b>Sobrenome:</b></label>
             <input type="text" id="surname" name="surname" class="form-control" value="{{$client->surname}}">
         </div>
+        <br>
         <div class="form-group">
-            <label for="email">Email:</label>
+            <label for="email"><b>Email:</b></label>
             <input type="email" id="email" name="email" class="form-control" value="{{$client->email}}">
         </div>
+        <br>
         <div class="form-group">
-            <label for="telephone">Telefone:</label>
+            <label for="telephone"><b>Telefone:</b></label>
             <input type="tel" id="telephone" name="telephone" class="form-control" maxlength="15" value="{{$client->telephone}}" pattern="\([0-9]{2}\) [9]{1}[0-9]{4}-[0-9]{4}" onkeyup="handlePhone(event)"/> 
         </div>
-        <input type="submit" class="btn btn-primary" value="editar cliente">
+        <br>
+        <div class="form-group text-center">
+            <input type="submit" class="btn btn-primary btn-lg" value="Editar" style="width: 200px">
+        </div>
     </form>
 </div>
-
-<a class="nav-link" href="/clients">Voltar</a>
+<div class="back">
+    <a class="btn btn-danger btn-sm" href="/clients"><i class='bx bx-arrow-back'></i> Voltar</a>
+</div>
 
 <script>
     const handlePhone = (event) => {

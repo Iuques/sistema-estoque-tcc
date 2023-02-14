@@ -1,20 +1,48 @@
 @extends('layouts.products')
 @section('title', 'Fornecedores')
 @section('content')
-<h1>Lista de fornecedores</h1>
 
-@foreach ($suppliers as $supplier)
-    <p>Nome: {{ $supplier->name }}</p>
-    <p>Contato: {{ $supplier->contact }}</p>
-    <p>Endereço: {{ $supplier->address }}</p>
-    <form action="/products/suppliers/destroy/{{$supplier->id}}" method="POST">
-        @csrf
-        @method("DELETE")
-        <input type="submit" class="btn btn-danger" value="excluir">
-    </form>
-    <a href="/products/suppliers/edit/{{$supplier->id}}" class="btn btn-info">Editar</a>
-    <hr class="border border-primary border-2 opacity-50">
-@endforeach
+<div class="row">
+    <div class="col">
+        <h1>Lista de fornecedores</h1>
+    </div>
+    <div class="col" style="text-align: right">
+        <a class="btn btn-primary btn-lg" href="/products/suppliers/create">Cadastrar novo fornecedor</a>
+    </div>
+</div>
 
-<a class="btn btn-primary" href="/products/suppliers/create">Adicionar fornecedor</a>
+@if (count($suppliers) == 0)
+    <p>Nenhum fornecedor foi adicionado</p>
+@else
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Contato</th>
+                <th scope="col">Endereço</th>
+                <th scope="col">Ações</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            @foreach ($suppliers as $supplier)
+                <tr>
+                    <th scope="row">{{ $supplier->id }}</th>
+                    <td>{{ $supplier->name }}</td>
+                    <td>{{ $supplier->contact }}</td>
+                    <td>{{ $supplier->address }}</td>
+                    <td>
+                        <form action="/products/suppliers/destroy/{{$supplier->id}}" method="POST">
+                            <abbr title="Editar"><a href="/products/suppliers/edit/{{$supplier->id}}" class="btn btn-info"><i class='bx bxs-edit'></i></a></abbr>
+                            @csrf
+                            @method("DELETE")
+                            <abbr title="Excluir"><button type="submit" class="btn btn-danger"><i class='bx bx-trash' ></i></button></abbr>
+                        </form> 
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+@endif
+
 @endsection

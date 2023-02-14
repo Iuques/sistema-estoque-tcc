@@ -4,20 +4,28 @@
 
 
 <div class="col-md-6 offset-md-3" id="departament-create-container">
-    <h1>Cadastrar departamento</h1>
+    <div class="text-center">
+        <h1>Cadastrar departamento</h1>
+    </div>
     <form action="/products/departaments/store" method="POST">
         @csrf
         <div class="form-group">
-            <label for="name">Nome:</label>
-            <input type="text" id="name" name="name" class="form-control" placeholder="Nome do departamento">
+            <label for="name"><b>Nome:</b></label>
+            <input type="text" id="name" name="name" class="form-control" placeholder="Nome do departamento" required>
         </div>
+        <br>
         <div class="form-group">
-            <label for="description">Descrição:</label>
-            <input type="textarea" id="description" name="description" class="form-control" placeholder="Descrição do departamento">
+            <label for="description"><b>Descrição:</b></label>
+            <textarea name="description" id="description" class="form-control" placeholder="Descrição do departamento" rows="3" required></textarea>
         </div>
-        <input type="submit" class="btn btn-primary" value="criar departamento">
+        <br>
+        <div class="form-group text-center">
+            <input type="submit" class="btn btn-primary btn-lg" value="Cadastrar" style="width: 200px">
+        </div>
     </form>
 </div>
+<div class="back">
+    <a class="btn btn-danger btn-sm" href="/products/departaments"><i class='bx bx-arrow-back'></i> Voltar</a>
+</div>
 
-<a class="nav-link" href="/products/departaments">Voltar</a>
 @endsection

@@ -26,6 +26,9 @@ class SaleController extends Controller
     }
     //Trata e armazena os dados
     public function store(Request $request) {
+        if ($request->client == null) {
+            return back()->withErrors('Especifique um cliente');
+        }
         #Instancia um novo model
         $sale = new Sale;
         #Define a data da venda
@@ -33,6 +36,9 @@ class SaleController extends Controller
 
         #Loop de tamanho variável (com base em quantos produtos diferentes foram recebidos pelo $request)
         for ($i = 1;  $i <= (int)$request->counter; $i++) {
+            if ($request->input('product'.$i) == null) {
+                return back()->withErrors('Selecione um produto válido');
+            }
             #Encontra o produto com id do $request
             $product = Product::findOrFail((int)$request->input('product'.$i));
             

@@ -1,41 +1,66 @@
 @extends('layouts.main')
 @section('title', 'Usuários')
 @section('content')
-<h1>Lista usuários</h1>
 
-@foreach ($users as $user)
-    <p>Nome: {{ $user->name }} {{ $user->surname }}</p>
-    <p>Email: {{ $user->email }}</p>
-    <p>
-        Tipo:
-        @if ($user->type == 1)
-            Admnistrador
-        @else
-            Comum
-        @endif
-    </p>
-    <p>
-        Vendas: 
-        @if (count($user->sale()->get()) > 0)
-            @foreach ($user->sale()->get() as $key => $sale)
-                ID:{{$sale->id}}@if (count($user->sale()->get()) != $key+1),@endif
-            @endforeach
-        @else
-            Este usuário ainda não realizou nenhuma venda.
-        @endif
-    </p>
-    @if ($user->id != auth()->user()->id && auth()->user()->type == 1)
-        <form action="/users/destroy/{{$user->id}}" method="POST">
-            @csrf
-            @method("DELETE")
-            <input type="submit" class="btn btn-danger" value="excluir">
-        </form>
-    @endif
-    @if (auth()->user()->type == 1)
-        <a href="/users/edit/{{$user->id}}" class="btn btn-info">Editar</a>
-    @endif
-    <hr class="border border-primary border-2 opacity-50">
-@endforeach
+<div class="row">
+    <div class="col">
+        <h1>Lista de usuários</h1>
+    </div>
+    <div class="col" style="text-align: right">
+        <a class="btn btn-primary btn-lg" href="/users/create">Cadastrar novo usuário</a>
+    </div>
+</div>
 
-<a class="btn btn-primary" href="/users/create">Cadastrar usuário</a>
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Email</th>
+        <th scope="col">Tipo</th>
+        <th scope="col">IDs das Vendas</th>
+        @if (auth()->user()->type == 1)
+            <th scope="col">Ações</th>
+        @endif
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+        @foreach ($users as $user)
+            <tr>
+                <th scope="row">{{ $user->id }}</th>
+                <td>{{ $user->name }} {{ $user->surname }}</td>
+                <td>{{ $user->email }}</td>
+                <td>
+                    @if ($user->type == 1)
+                        Admnistrador
+                    @else
+                        Comum
+                    @endif
+                </td>
+                <td>
+                    @if (count($user->sale()->get()) > 0)
+                        @foreach ($user->sale()->get() as $key => $sale)
+                            {{$sale->id}}@if (count($user->sale()->get()) != $key+1),@endif
+                        @endforeach
+                    @else
+                        Este usuário ainda não realizou nenhuma venda.
+                    @endif
+                </td>
+                @if (auth()->user()->type == 1)
+                    <td>
+                        <form action="/users/destroy/{{$user->id}}" method="POST">
+                            <abbr title="Editar"><a href="/users/edit/{{$user->id}}" class="btn btn-info"><i class='bx bxs-edit'></i></a></abbr>
+                            @if ($user->id != auth()->user()->id)
+                                @csrf
+                                @method("DELETE")
+                                <abbr title="Excluir"><button type="submit" class="btn btn-danger"><i class='bx bx-trash' ></i></button></abbr>
+                            @endif
+                        </form> 
+                    </td>
+                @endif
+            </tr>
+        @endforeach
+    </tbody>
+</table>
+
 @endsection

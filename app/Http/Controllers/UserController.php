@@ -21,6 +21,9 @@ class UserController extends Controller
     public function store(Request $request) {
         #Checa se o email já está em uso
         $request->validate(['email' => 'unique:users,email']);
+        if ($request->type == null) {
+            return back()->withErrors('Especifique um tipo para o usuário');
+        }
 
         #Instancia um novo model e preenche com os dados
         $user = new User;

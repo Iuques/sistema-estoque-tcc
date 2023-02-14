@@ -30,6 +30,7 @@ Route::get('/', function () {
 Route::get('/dashboard', [AuthController::class, 'index']);
 #Rota de login, possui '->name('login)' para o laravel entender que esta é a rota de login e poder redirecionar através do middleware
 Route::get('/dashboard/login', [AuthController::class, 'loginForm'])->name('login');
+Route::get('/dashboard/createuser', [AuthController::class, 'createUser']);
 Route::get('/dashboard/logout', [AuthController::class, 'logout']);
 Route::post('/dashboard/login/do', [AuthController::class, 'loginDo']);
 Route::post('/dashboard/store', [AuthController::class, 'storeUser']);
@@ -60,7 +61,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::put('/clients/update/{id}', [ClientController::class, 'update']);
 
     // Rotas relacionadas aos produtos
-    Route::get('/products', [ProductController::class, 'index']);
+    Route::get('/products', [ProductController::class, 'index'])->name('products');
     Route::get('/products/create', [ProductController::class, 'create']);
     Route::post('/products/store', [ProductController::class, 'store']);
     Route::delete('/products/destroy/{id}', [ProductController::class, 'destroy']);
@@ -68,7 +69,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::put('/products/update/{id}', [ProductController::class, 'update']);
 
     // Rotas relacionadas aos departamentos
-    Route::get('/products/departaments', [DepartamentController::class, 'index']);
+    Route::get('/products/departaments', [DepartamentController::class, 'index'])->name('departaments');
     Route::get('/products/departaments/create', [DepartamentController::class, 'create']);
     Route::post('/products/departaments/store', [DepartamentController::class, 'store']);
     Route::delete('/products/departaments/destroy/{id}', [DepartamentController::class, 'destroy']);
@@ -76,7 +77,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::put('/products/departaments/update/{id}', [DepartamentController::class, 'update']);
     
     // Rotas relacionadas aos fornecedores
-    Route::get('/products/suppliers', [SupplierController::class, 'index']);
+    Route::get('/products/suppliers', [SupplierController::class, 'index'])->name('suppliers');
     Route::get('/products/suppliers/create', [SupplierController::class, 'create']);
     Route::post('/products/suppliers/store', [SupplierController::class, 'store']);
     Route::delete('/products/suppliers/destroy/{id}', [SupplierController::class, 'destroy']);

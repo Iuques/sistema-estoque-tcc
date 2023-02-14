@@ -1,0 +1,193 @@
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+/*CSS para a pagina de login*/
+#login-wrapper.wrapper {
+    background: #ececec;
+    padding: 0 20px 0 20px;
+}
+#login-container.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+#login-row.row {
+    width: 900px;
+    height: 550px;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.2);
+}
+.side-image {
+    background-image: url("../img/banner-emstock.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+    border-radius: 10px 0 0 10px;
+}
+.right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+#login-inputbox.input-box {
+    width: 330px;
+    box-sizing: border-box;
+}
+#login-inputbox.input-box header {
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 45px;
+}
+#login-inputbox.input-box .input-field {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 0 10px 0 10px;
+}
+#login-inputbox.input-box .input-field .input {
+    height: 45px;
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+    margin-bottom: 20px;
+    color: #40414a;
+}
+#login-inputbox.input-box .input-field #input-label{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    pointer-events: none;
+    transition: .5s;
+}
+#login-inputbox.input-box .input-field .input:focus ~ #input-label { 
+    top: -10px;
+    font-size: 13px;
+}
+#login-inputbox.input-box .input-field .input:valid ~ #input-label { 
+    top: -10px;
+    font-size: 13px;
+    color: #1c3663;
+}
+#login-inputbox.input-box .input-field .input:focus, #login-inputbox.input-box .input-field .input:valid {
+    border-bottom: 1px solid #0088d7;
+}
+#login-inputbox.input-box .input-field .submit {
+    border: none;
+    outline: none;
+    height: 45px;
+    background: #ececec;
+    border-radius: 5px;
+    transition: .4s;
+}
+#login-inputbox.input-box .input-field .submit:hover {
+    background: #1466ad;
+    color: white;
+}
+#login-inputbox.input-box .input-field .checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+/*Custom checkbox*/
+#login-inputbox.input-box .input-field .checkbox-container .checkbox {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+#login-inputbox.input-box .input-field .checkbox-container .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    border-radius: 3px;
+    background-color: #ececec;
+    transition: .4s;
+}
+/* On mouse-over, add a grey background color */
+#login-inputbox.input-box .input-field .checkbox-container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+  /* When the checkbox is checked, add a blue background */
+#login-inputbox.input-box .input-field .checkbox-container input:checked ~ .checkmark {
+    background-color: #0088d7;
+}
+  /* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+  /* Show the checkmark when checked */
+#login-inputbox.input-box .input-field .checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+  /* Style the checkmark/indicator */
+.container .checkmark:after {
+    left: 10px;
+    top: 5px;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+/*CSS da pagina de cadastro*/
+#user-create-wrapper.wrapper {
+    background: #ececec;
+    padding: 0 20px 0 20px;
+}
+#user-create-container.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+#user-create-row.row {
+    width: 900px;
+    height: 550px;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.2);
+}
+#user-create-row.row header {
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 35px;
+    height: 50px;
+}
+#user-create-row.row .form-group .btn {
+    border: none;
+    outline: none;
+    height: 45px;
+    background: #ccc;
+    color: black;
+    height: 50px;
+    width: 450px;
+    border-radius: 5px;
+    transition: .4s;
+}
+#user-create-row.row .form-group .btn:hover {
+    background: #1466ad;
+    color: white;
+}

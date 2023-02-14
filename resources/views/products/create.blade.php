@@ -4,31 +4,62 @@
 
 
 <div class="col-md-6 offset-md-3" id="product-create-container">
-    <h1>Cadastrar produto</h1>
+    <div class="text-center">
+        <h1>Cadastrar produto</h1>
+    </div>
     <form action="/products/store" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
-            <label for="name">Nome:</label>
+            <label for="name"><b>Nome:</b></label>
             <input type="text" id="name" name="name" class="form-control" placeholder="Nome do produto" required>
         </div>
+        <br>
         <div class="form-group">
-            <label for="description">Descrição:</label>
-            <input type="textarea" id="description" name="description" class="form-control" placeholder="Descrição do produto" required>
+            <label for="description"><b>Descrição:</b></label>
+            <textarea name="description" id="description" class="form-control" placeholder="Descrição do produto" rows="3" required></textarea>
         </div>
-        <div class="form-group">
-            <label for="buyprice">Preço de compra:</label>
-            <input type="number" id="buyprice" name="buyprice" class="form-control" placeholder="00.00" required>
+        <br>
+        <div class="row g-3 align-items-center">
+            <div class="col-md-4">
+                <div class="row g-2 align-items-center">
+                    <div class="col-auto">
+                        <label for="buyprice"><b>Preço de compra:</b></label>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="input-group">
+                            <span class="input-group-text" id="buyprice">R$</span>
+                            <input type="number" id="buyprice" name="buyprice" class="form-control" step="0.01" placeholder="00.00" aria-label="buyprice" aria-describedby="buyprice" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="row g-2 align-items-center">
+                    <div class="col-auto">
+                        <label for="sellprice"><b>Preço de venda:</b></label>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="input-group">
+                            <span class="input-group-text" id="sellprice">R$</span>
+                            <input type="number" id="sellprice" name="sellprice" class="form-control" step="0.01" placeholder="00.00" aria-label="sellprice" aria-describedby="sellprice" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="row g-2 align-items-center">
+                    <div class="col-auto">
+                        <label for="quantity"><b>Quantidade:</b></label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="number" id="quantity" name="quantity" class="form-control text-center" placeholder="0" required>
+                    </div>
+                </div>
+            </div>
         </div>
+        <br>
         <div class="form-group">
-            <label for="sellprice">Preço de venda:</label>
-            <input type="number" id="sellprice" name="sellprice" class="form-control" placeholder="00.00" required>
-        </div>
-        <div class="form-group">
-            <label for="quantity">Quantidade:</label>
-            <input type="number" id="quantity" name="quantity" class="form-control" placeholder="0" required>
-        </div>
-        <div class="form-group">
-            <label for="departament">Departamento:</label>
+            <label for="departament"><b>Departamento:</b></label>
             <select id="departament" name="departament" onChange="newDepartament()" class="form-control" required>
                 <option value="">Selecione um departamento</option>
                 <option value="newDep">Criar novo departamento</option>
@@ -40,17 +71,19 @@
         <div id="displayDepartamentForm" style="display: none" > 
             <hr>
             <div class="form-group">
-                <label for="depName">Nome do departamento:</label>
+                <label for="depName"><b>Nome do departamento:</b></label>
                 <input type="text" id="depName" name="depName" class="form-control" placeholder="Nome do departamento">
             </div>
+            <br>
             <div class="form-group">
-                <label for="depDesc">Descrição do departamento:</label>
-                <input type="textarea" id="depDesc" name="depDesc" class="form-control" placeholder="Descrição do departamento">
+                <label for="depDesc"><b>Descrição do departamento:</b></label>
+                <textarea id="depDesc" name="depDesc" class="form-control" placeholder="Descrição do departamento" rows="2"></textarea>
             </div>
             <hr>
         </div>
+        <br>
         <div class="form-group">
-            <label for="supplier">Fornecedor:</label>
+            <label for="supplier"><b>Fornecedor:</b></label>
             <select id="supplier" name="supplier" onChange="newSupplier()" class="form-control" required>
                 <option value="">Selecione um fornecedor</option>
                 <option value="newSup" >Cadastrar novo fornecedor</option>
@@ -62,30 +95,37 @@
         <div id="displaySupplierForm" style="display: none" > 
             <hr>
             <div class="form-group">
-                <label for="supName">Nome do fornecedor:</label>
+                <label for="supName"><b>Nome do fornecedor:</b></label>
                 <input type="text" id="supName" name="supName" class="form-control" placeholder="Nome do fornecedor">
             </div>
+            <br>
             <div class="form-group">
-                <label for="supContact">Contato do fornecedor:</label>
+                <label for="supContact"><b>Contato do fornecedor:</b></label>
                 <input type="text" id="supContact" name="supContact" class="form-control" placeholder="Contato do fornecedor">
             </div>
+            <br>
             <div class="form-group">
-                <label for="supAddress">Endereço do fornecedor:</label>
+                <label for="supAddress"><b>Endereço do fornecedor:</b></label>
                 <input type="text" id="supAddress" name="supAddress" class="form-control" placeholder="Endereço do fornecedor">
             </div>
             <hr>
         </div>
         <br>
         <div class="form-group">
-            <label for="image">Imagem:</label>
-            <input type="file" id="image" name="image" class="form-control-file">
+            <div class="mb-3">
+                <label for="image" class="form-label"><b>Imagem:</b></label>
+                <input class="form-control" type="file" id="image" name="image">
+            </div>
         </div>
         <br>
-        <input type="submit" class="btn btn-primary" value="cadastrar produto">
+        <div class="form-group text-center">
+            <input type="submit" class="btn btn-primary btn-lg" value="Cadastrar" style="width: 200px">
+        </div>
     </form>
 </div>
-
-<a class="nav-link" href="/products">Voltar</a>
+<div class="back">
+    <a class="btn btn-danger btn-sm" href="/products"><i class='bx bx-arrow-back'></i> Voltar</a>
+</div>
 
 <script>
     function newDepartament() {

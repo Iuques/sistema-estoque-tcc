@@ -4,21 +4,29 @@
 
 
 <div class="col-md-6 offset-md-3" id="departament-edit-container">
-    <h1>Editar departamento</h1>
+    <div class="text-center">
+        <h1>Editando departamento: {{$departament->name}}</h1>
+    </div>
     <form action="/products/departaments/update/{{$departament->id}}" method="POST">
         @csrf
         @method('PUT')
         <div class="form-group">
-            <label for="name">Nome:</label>
+            <label for="name"><b>Nome:</b></label>
             <input type="text" id="name" name="name" class="form-control" value="{{$departament->name}}">
         </div>
+        <br>
         <div class="form-group">
-            <label for="description">Descrição:</label>
-            <input type="textarea" id="description" name="description" class="form-control" value="{{$departament->description}}">
+            <label for="description"><b>Descrição:</b></label>
+            <textarea name="description" id="description" class="form-control" placeholder="Descrição do departamento" rows="3">{{$departament->description}}</textarea>
         </div>
-        <input type="submit" class="btn btn-primary" value="editar departamento">
+        <br>
+        <div class="form-group text-center">
+            <input type="submit" class="btn btn-primary btn-lg" value="Editar" style="width: 200px">
+        </div>
     </form>
 </div>
+<div class="back">
+    <a class="btn btn-danger btn-sm" href="/products/departaments"><i class='bx bx-arrow-back'></i> Voltar</a>
+</div>
 
-<a class="nav-link" href="/products/departaments">Voltar</a>
 @endsection

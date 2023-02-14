@@ -1,22 +1,50 @@
-@php
-$client = $sale->client()->first();
-$user = $sale->user()->first();
-@endphp 
+<head>
+    <style>
+        * {
+            background-color: beige;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin: 20px 0 20px 10px;
+        }
+        h1 {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    @php
+    $client = $sale->client()->first();
+    $user = $sale->user()->first();
+    @endphp 
 
-<h2>Comprovante de venda</h2>
+    <h1>Comprovante de Venda</h1>
 
-ID da venda: {{$sale->id}} <br>
-Data da venda: {{date( 'd/m/Y' , strtotime($sale->selldate))}} <br>
-Cliente: {{ $client->name }} {{ $client->surname }} (ID:{{$client->id}})<br>
-Vendedor: {{ $user->name }} {{ $user->surname }} (ID:{{$user->id}})<br>
-<br>
-@foreach ($products = $sale->products()->get() as $key => $product)
+    <b>ID da venda:</b> {{$sale->id}} <br>
+    <b>Data da venda:</b> {{date( 'd/m/Y' , strtotime($sale->selldate))}} <br>
+    <b>Cliente</b>: {{ $client->name }} {{ $client->surname }} <b>[ID:{{$client->id}}]</b><br>
+    <b>Vendedor:</b> {{ $user->name }} {{ $user->surname }} <b>[ID:{{$user->id}}]</b><br>
+
     <br>
-    Produto {{$key+1}} (ID:{{$product->id}}): {{$product->name}}
-    / Quantidade: {{$product->pivot->quantity}}
-    / Valor individual: R${{$product->sellprice}}
-    / Valor somado: R${{$product->pivot->value}}
-    <hr>
-@endforeach
-<br>
-Valor total: R${{$sale->totalvalue}}
+    <b>========================================////==============================================</b>
+    <br>
+
+    @foreach ($products = $sale->products()->get() as $key => $product)
+        <br>
+        <b>Produto {{$key+1}}:</b> {{$product->name}}
+        // <b>Quantidade:</b> {{$product->pivot->quantity}}
+        // <b>Valor individual:</b> R${{ number_format($product->sellprice,2,',') }}
+        // <b>Valor somado:</b> R${{ number_format($product->pivot->value,2,',') }}
+        <hr>
+    @endforeach
+
+    <br>
+    <b>========================================////==============================================</b>
+    <br>
+
+    <br>
+    <b>Valor total:</b> R${{ number_format($sale->totalvalue,2,',') }}
+    </div>
+</body>

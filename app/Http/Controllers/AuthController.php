@@ -5,17 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
+use App\Models\Product;
+use App\Models\Sale;
+use App\Models\Client;
 
 class AuthController extends Controller
 {
     public function index() {
         if (Auth::check() === true) {
-            $lastProduct = DB::table('products')->latest()->first();
-            $lastSale = DB::table('sales')->latest()->first();
-            $lastClient = DB::table('clients')->latest()->first();
+            $lastProducts = Product::latest()->get();
+            $lastSale = Sale::latest()->first();
+            $lastClient = Client::latest()->first();
 
-            return view('dashboard.index', ['lastProduct' => $lastProduct, 'lastSale' => $lastSale, 'lastClient' => $lastClient]);
+            return view('dashboard.index', ['lastProducts' => $lastProducts, 'lastSale' => $lastSale, 'lastClient' => $lastClient]);
         } else {
             return redirect('/dashboard/login');
         }
@@ -24,10 +26,14 @@ class AuthController extends Controller
     public function loginForm() {
         $user = User::all();
         if ($user->isEmpty()) {
-            return view('dashboard.login')->with('cadastra', true);
+            return redirect('/dashboard/createuser');
         } else {
-            return view('dashboard.login')->with('cadastra', false);
+            return view('dashboard.login');
         }
+    }
+
+    public function createUser() {
+        return view('dashboard.createuser');
     }
 
     public function loginDo(Request $request) {
